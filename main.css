@@ -1,0 +1,241 @@
+* {
+    box-sizing: border-box;
+}
+
+html {
+    background-color: #BFCFFE;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    width: 780px;
+    margin: 2rem auto auto;
+    background-color: white;
+    border: 1px solid #001963;
+    height: fit-content;
+}
+
+header {
+    margin: 0;
+    border-bottom: 2px solid black;
+    padding: 1rem 2rem;
+}
+
+header h1 {
+    color: black;
+    margin: 0;
+    padding: 0;
+}
+
+header p {
+    margin: 0;
+    padding: .5rem 0 0 0;
+}
+
+header ul {
+    margin: 0;
+    padding: 1rem 0 0 0;
+}
+
+main {
+    margin: 0;
+    padding: .5rem 2rem .25rem;
+}
+
+section {
+    margin: 1.5rem 0;
+    padding-left: 2rem;
+}
+
+footer {
+    clear: both;
+    margin-top: 1rem;
+    padding-right: 1rem;
+    border-top: 2px solid black;
+}
+
+footer p {
+    text-align: right;
+    font-size: 80%;
+    margin: 1rem 0;
+}
+
+h1 {
+    font-size: 150%;
+    margin: 0;
+    padding: .5rem 0 .25rem;
+}
+
+h2 {
+    font-size: 120%;
+    margin: 0;
+    padding: .25rem 0 .25rem;
+}
+
+h1, h2 {
+    color: black;
+}
+
+p {
+    margin: .5rem 0 .5rem 0;
+    padding: 0;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+}
+
+li {
+    margin: 0;
+    padding: 0;
+}
+
+nav ul {
+    list-style-type: none;
+    margin-left: 0;
+    padding-left: 0;
+}
+
+nav ul li {
+    padding-bottom: 0.5rem;
+}
+
+a {
+    color: #3333CC;
+    font-weight: bold;
+
+}
+
+a:hover {
+    color: #3333CC;
+}
+
+table {
+    border: 1px solid #001963;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+td, th {
+    border: 1px dashed #001963;
+    padding: .2rem .5rem .2rem .5rem;
+    text-align: left;
+}
+
+#no_border {
+    border: 0px;
+}
+
+#no_border td {
+    border: 0px;
+}
+
+form {
+    margin: 0.5rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.formLabelInput {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+}
+
+.formLabelInput > label {
+    width: 115px;
+}
+
+.formLabelInput > input, select {
+    height: 1.5rem;
+    width: 310px;
+}
+
+.submitButtonIndent {
+    height: 1.5rem;
+    margin-left: 115px;
+    width: 150px;
+}
+
+td > form > input[type='submit'] {
+    height: 1.5rem;
+    width: 70px;
+}
+
+.submitButton {
+    height: 1.5rem;
+    max-width: 150px;
+    margin-left: 1rem;
+}
+
+.submitButtonNoIndent {
+    height: 1.5rem;
+    max-width: 150px;
+}
+
+#date_tip, #phone_tip {
+    display: inline-block;
+    font-size: small;
+    margin-left: 1rem;
+}
+
+.instructions {
+    margin-bottom: 1.25rem;
+}
+
+.confirm_update {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 0.75rem;
+}
+
+textarea {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 80%;
+    width: 310px;
+    resize: none;
+}
+
+.right {
+    text-align: right;
+}
+
+.error {
+    color: red;
+    margin-left: 1rem;
+    font-size: small;
+}
+
+.message {
+    margin-left: .5rem;
+    width: 15rem;
+}
+
+#aligned {
+    margin: .5rem 0 2rem;
+}
+
+#aligned label {
+    width: 8rem;
+    margin-top: .2rem;
+    margin-right: 1rem;
+    margin-bottom: .5rem;
+    float: left;
+}
+
+#aligned input {
+    float: left;
+}
+
+#aligned input[text] {
+    width: 15rem;
+}
+
+#aligned .message {
+    margin-left: .5rem;
+    width: 15rem;
+}
+
