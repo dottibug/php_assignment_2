@@ -175,7 +175,7 @@ td > form > input[type='submit'] {
     max-width: 150px;
 }
 
-#date_tip, #phone_tip {
+.tipMessage {
     display: inline-block;
     font-size: small;
     margin-left: 1rem;

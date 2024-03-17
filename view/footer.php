@@ -1,3 +1,7 @@
+</section>
+</main>
 <footer>
-    <p>&copy; 2024 SportsPro, Inc</p>
+    <p>&copy; <?php echo date("Y"); ?> SportsPro, Inc</p>
 </footer>
+</body>
+</html>
