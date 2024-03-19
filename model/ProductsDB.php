@@ -16,6 +16,7 @@ class ProductsDB
             $db = Database::getDB();
             $query = 'SELECT * FROM products';
             $statement = $db->prepare($query);
+            $statement->execute();
             $result = $statement->fetchAll(PDO::FETCH_ASSOC);
             $statement->closeCursor();
 

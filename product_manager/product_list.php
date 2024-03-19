@@ -15,7 +15,7 @@
             <td><?php echo $product->getProductCode(); ?></td>
             <td><?php echo $product->getName(); ?></td>
             <td><?php echo $product->getVersion(); ?></td>
-            <td><?php echo $product->getReleaseDate(); ?></td>
+            <td><?php echo $product->getFormattedReleaseDate(); ?></td>
             <td>
                 <form action="index.php" method="post" id="delete_product_form">
                     <input type="hidden" name="action" value="delete_product">
@@ -26,7 +26,7 @@
             </td>
         </tr>
     <?php endforeach; ?>
-    
+
 </table>
 <br>
 <a href="index.php?action=show_add_form">Add Product</a>

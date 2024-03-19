@@ -64,6 +64,12 @@ class Product
     {
         return $this->releaseDate;
     }
+
+    public function getFormattedReleaseDate()
+    {
+        $dateObject = new DateTime($this->releaseDate);
+        return $dateObject->format('n/j/Y');
+    }
 }
 
 ?>

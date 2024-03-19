@@ -1,0 +1,255 @@
+Don't use any template libraries or frameworks like React. No javascript anywhere. Implement MCV
+design pattern.
+
+Introduction
+This introduction describes the design of the SportsPro Technical Support application and the tech_support database. In addition, it explains how to make the tech_support database available to your applications, how to restore the database so it contains its original data, and how to prepare for developing the application. Finally, it provides some general information about developing the projects.
+
+The Design of the SportsPro Technical Support Application
+The SportsPro Technical Support application consists of web pages that provide functions for three types of users. First, it lets administrators perform functions such as maintaining the Products, Customers, and Technicians tables of the tech_support database. Second, it lets technicians perform functions such as updating incidents. And third, it lets customers perform functions such as registering products.
+
+You would develop this application iteratively. Most tasks have you add one or more new pages to the SportsPro application. For example, Task 1 has you add two pages that let an administrator manage the products in the database. If you complete all the tasks for these assignments (Assignment 2 and Assignment 3), you’ll have a relatively realistic web application.
+
+The Design of the tech_support Database
+The tech_support database is used to track technical support incidents. It consists of the seven tables shown in the diagram that follows. The Incidents table contains one row for each technical support incident. Each row in the Incidents table is related to one row in the Customers table, which contains information about the company’s customers; one row in the Products table, which contains information about the company’s products; and one row in the Technicians table, which contains information about the company’s technical support staff.
+
+In addition, a table named “Registrations” keeps track of the products that are registered to each customer, a table named “Countries” stores the countries of the world, and a table named “Administrators” stores the usernames and passwords for the administrators.
+
+Note that the Administrators table is not related to any of the other tables.
+
+How the Tasks Are Described
+The description of each task includes an image of how the pages should appear in a browser, a description of how the pages operate, and specifications for how the task should be coded. This information is detailed enough for you to complete each task. However, you’ll need to use your best judgment on how to code many of the details. To do that, write the code in the way that you think is best, based on the skills that were presented in the course.
+
+Unless you’re instructed otherwise, you can implement each task using any programming techniques you wish. In some cases, however, the task’s specifications will direct you to use a specific programming technique. For example, a task may direct you to use sessions. In that case, you should implement the task as directed.
+
+Task 1: Create Incident (10 marks)
+For this task, you’ll update the SportsPro application such that it lets an admin user enter new incidents. To do that, you’ll begin by letting the user select a customer.
+
+The Get Customer Page
+
+Operation
+
+To get a customer, the user can enter the customer’s e-mail address. Then, the user can click on the Get Customer button to retrieve the customer’s data and display the Create Incident page.
+
+The Create Incident Page (view 1)
+
+Operation
+
+To create an incident, the user selects a product from the Product drop-down list, enters a title, enters a description, and clicks on the Create Incident button.
+
+Specifications
+
+The Product drop-down list should only include products that the customer has registered.
+
+The Create Incident Page (view 2)
+
+Specifications
+
+If successful, the Create Incident page should display a message that indicates that the incident was added to the database.
+
+Task 2: Use Sessions (10 marks)
+In this task, you would update the Register Product application using sessions. In the Registration Product page, let the customer skip the Customer Login page if they have already logged in.
+
+The Register Product Page
+Operation
+
+The Register Product application should work the same way as you have developed in Assignment 2, but in this version, a customer who has logged in can skip the Customer Login page.
+
+The customer can view the message on the Register Product page to verify that they are logged in.
+
+To log out, the customer can click on the Logout button or close the browser. If the user clicks the Logout button, the Customer Login page is displayed.
+
+Specifications
+
+Use a session cookie for the session. That way, the session ends when the user closes the browser.
+
+Store the customer data in the session. That way, you don’t have to use hidden fields to pass the customer ID to the controller.
+
+Task 3: Handle Data Access Errors (10 marks)
+In this task, you should handle data access errors using exception handling. For all classes in the model, use try/catch statements to handle data access errors. Also, make sure to use prepared statements that return arrays instead of PDOStatement objects.
+
+The Database Error Page
+Operation
+
+From the user’s point of view, all applications should work the same as they did previously. However, if any application encounters a database error, the user should see a Database Error page like the one above.
+
+To simulate a database error, you can modify one of the SQL statements in the model so it causes an error. For example, on the page above, the SQL statement is trying to access the “Product” table instead of the “Products” table.
+
+Specifications
+
+Modify all data access functions so they use a try/catch statement to handle any data access errors that may occur. To do that, they can display a Database Error page like the one shown above.
+
+Make sure all data access code uses prepared statements.
+
+Make sure all data access functions return arrays of rows.
+
+Task 4: Assign Incidents (10 marks)
+For this task, you’ll update the application such that it assigns an incident to a technician.
+
+The Select Incident Page
+Operation
+
+When this application starts, the Select Incident page uses a table to display all of the incidents that have not been assigned to a technician (techID IS NULL).
+
+When the admin user clicks the Select button for an incident, the Select Technician page is displayed.
+
+Specifications
+
+Use a join in the SELECT statement for this page so it retrieves data from the incidents and customers tables.
+
+Save the incident ID in the $\_SESSION array so it can be used later in the application.
+
+The Select Technician Page
+Operation
+
+When the user clicks the Select button for a technician, the Assign Incident page is displayed.
+
+Specifications
+
+To get the number of open incidents for each technician, use a SELECT statement that includes a correlated subquery.
+
+Save the technician ID in the $\_SESSION array so it can be used later in the application.
+
+The Assign Incident Page (view 1)
+Operation
+
+When the user clicks the Assign Incident button, the selected incident is updated with the ID for the selected technician. If successful, this displays a message like the one shown below. Otherwise, an appropriate error message is displayed.
+
+The Assign Incident Page (view 2)
+Operation
+
+When the user clicks on the Select Another Incident link, the Select Incident page is displayed.
+
+Task 5: Update Incidents (10 marks)
+For this task, you’ll update the application such that it lets technicians update the rows in the incidents table.
+
+The Technician Login Page
+Operation
+
+After the technician logs in, the Select Incident page displays all incidents that have been assigned to the technician and have not been closed.
+
+The Select Incident Page
+Operation
+
+To select an incident, the technician can click on the Select button that corresponds to the incident. This displays the Update Incident page.
+
+To log out, the technician can click the Logout button.
+
+If there are no open incidents for the current technician, this page does not display a table of incidents. Instead, it displays a message that indicates that there are no open incidents, and a “Refresh List of Incidents” link. However, this link only displays new incidents if new incidents have been assigned to the technician.
+
+The Update Incident Page (view 1)
+Operation
+
+To update an incident, the technician can modify the description and optionally enter the date the incident was closed and click on the Update Incident button. If successful, this displays a message like the one shown below. Otherwise, an appropriate error message is displayed.
+
+To log out, the technician can click the Logout button.
+
+The Update Incident Page (view 2)
+Operation
+
+To view a list of the remaining open incidents, the technician can click on the Select Another Incident link. This skips the Technician Login page and goes directly to the Select Incident page.
+
+If there are no open incidents for the current technician, this page does not display a table of incidents. Instead, it displays a message that indicates that there are no open incidents, and a “Refresh List of Incidents” link. However, this link only displays new incidents if new incidents have been assigned to the technician.
+
+Task 6: Display Incidents (10 marks)
+For this task, you’ll update the application such that it displays all the assigned and unassigned incidents.
+
+The Unassigned Incidents Page
+Operation
+
+When the application starts, it displays information about all incidents that have not yet been assigned to a technician.
+
+To display the incidents that have already been assigned to a technician, the admin user can click on the View Assigned Incidents link.
+
+Specifications
+
+Display the customer name, the product name, and the four required columns of incident data (incident ID, date opened, title, and description).
+
+The Assigned Incidents Page
+Operation
+
+To display the incidents that haven’t been assigned, the admin user can click on the View Unassigned Incidents link.
+
+Specifications
+
+Display the same data as the Unassigned Incidents page plus the technician’s name and the date the incident was closed. If the incident hasn’t been closed, display “OPEN” instead of the date.
+
+Task 7: Add User Authentication (20 marks)
+For this task, you will use a secure connection and require all users to log in, including customers, technicians, and administrators.
+
+The Home Page
+Operation
+
+If you’ve been using the starting home page (that is supplied as the starter file with Assignment 2) for these applications, you’ll have to replace it with a Home page like the one above.
+
+When the user clicks one of the links on the main menu, the application displays a login form that’s appropriate for the type of user.
+
+The Admin Login Page
+Operation
+
+When the user enters a valid username and password, the Admin Menu page is displayed. Otherwise, the Admin Login page is displayed again.
+
+To log in, you can use “admin” as the username and “sesame” as the password.
+
+The Admin Menu Page
+Operation
+
+To navigate to an application, the user can click on the appropriate link.
+
+The page displays a message that indicates the login status.
+
+To log out, the user can click on the Logout button. This displays the Main Menu page.
+
+Specifications
+
+All pages should include a link to the Home page in the header for the page.
+
+Except for the Home page, all pages should use a secure (https) connection.
+
+No pages should allow an unauthorized user to access them. For example, only a user that’s logged in as an administrator should be able to access the Admin Menu page.
+
+The Technician Login Page
+Operation
+
+When the user enters a valid technician e-mail and password, the Select Incident page is displayed. Otherwise, the Technician Login page is displayed again.
+
+The Select Incident Page
+Operation
+
+This is the same as the update incident task, but the bottom of the page displays a message about the technician that’s logged in and provides a Logout button that the technician can use to log out.
+
+If there are open incidents for the current technician, this page displays a table of incidents as shown in the update incident task.
+
+If there are no open incidents for the current technician, this page displays a message and a link as shown above. However, this link only displays new incidents if new incidents have been assigned to the technician.
+
+The Customer Login Page
+Operation
+
+When the user enters a valid customer e-mail and password, the Register Product page is displayed. Otherwise, the Customer Login page is displayed again.
+
+The Register Product Page
+Operation
+
+This is the same as the register product task that you have completed in Assignment 2, but the bottom of the page displays a message about the customer that’s logged in and provides a Logout button that the customer can use to log out.
+
+Marking Guide for Assignment 3
+Use the following marking guide to self-assess each task presented in this assignment before submitting your work.
+
+Criteria
+
+Value
+
+The task is complete
+
+60%
+
+The recommendations provided in the problem description were followed.
+
+20%
+
+Codes are properly commented and organized.
+
+15%
+
+Proper instructions are given to run and test the application.
+
+5%

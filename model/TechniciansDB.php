@@ -16,10 +16,11 @@ class TechniciansDB
             $db = Database::getDB();
 
             // Fetch technicians
-            $query = 'SELECT t.*,
+            $query = "SELECT t.*,
                         (SELECT COUNT(*) FROM incidents i WHERE i.techID = t.techID) AS num 
-                        FROM technicians t ORDER BY num';
+                        FROM technicians t ORDER BY num";
             $statement = $db->prepare($query);
+            $statement->execute();
             $results = $statement->fetchAll(PDO::FETCH_ASSOC);
             $statement->closeCursor();
 
@@ -35,7 +36,7 @@ class TechniciansDB
                     $row['num']
                 );
                 $technician->setID($row['techID']);
-                $technicians[] = $technician; // add new tech to technicians array
+                $technicians[] = $technician;
             }
             return $technicians;
         } catch (PDOException $e) {
