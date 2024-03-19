@@ -19,7 +19,7 @@ class TechniciansDB
             $query = 'SELECT t.*,
                         (SELECT COUNT(*) FROM incidents i WHERE i.techID = t.techID) AS num 
                         FROM technicians t ORDER BY num';
-            $statement = $db->query($query);
+            $statement = $db->prepare($query);
             $results = $statement->fetchAll(PDO::FETCH_ASSOC);
             $statement->closeCursor();
 
@@ -138,7 +138,7 @@ class TechniciansDB
             $statement->execute();
             $result = $statement->fetch(PDO::FETCH_ASSOC);
             $statement->closeCursor();
-            
+
             // Create new Technician
             $technician = new Technician(
                 $result['firstName'],
