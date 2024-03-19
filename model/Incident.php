@@ -5,7 +5,8 @@
 
 class Incident
 {
-    private $customerID, $productCode, $techID, $dateOpened, $dateClosed, $title, $description;
+    private $incidentID, $customerID, $productCode, $techID, $dateOpened, $dateClosed, $title,
+        $description;
 
     // ------------------------------------------------------------------------------
     // Constructor
@@ -25,6 +26,11 @@ class Incident
     // ------------------------------------------------------------------------------
     // Setters
     // ------------------------------------------------------------------------------
+    public function setIncidentID($incidentID)
+    {
+        $this->incidentID = $incidentID;
+    }
+
     public function setCustomerID($customerID)
     {
         $this->customerID = $customerID;
@@ -63,6 +69,11 @@ class Incident
     // ------------------------------------------------------------------------------
     // Getters
     // ------------------------------------------------------------------------------
+    public function getIncidentID()
+    {
+        return $this->incidentID;
+    }
+
     public function getCustomerID()
     {
         return $this->customerID;
@@ -80,12 +91,36 @@ class Incident
 
     public function getDateOpened()
     {
-        return $this->dateOpened;
+        if (!$this->dateOpened) {
+            return null;
+        } else {
+            return $this->dateOpened;
+        }
+    }
+
+    public function getFormattedDateOpened()
+    {
+        $dateObject = new DateTime($this->dateOpened);
+        return $dateObject->format('n/j/Y');
     }
 
     public function getDateClosed()
     {
-        return $this->dateClosed;
+        if (!$this->dateClosed) {
+            return null;
+        } else {
+            return $this->dateClosed;
+        }
+    }
+
+    public function getFormattedDateClosed()
+    {
+        if (!$this->dateClosed) {
+            return null;
+        } else {
+            $dateObject = new DateTime($this->dateClosed);
+            return $dateObject->format('n/j/Y');
+        }
     }
 
     public function getTitle()

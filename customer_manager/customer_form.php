@@ -1,11 +1,10 @@
 <?php include '../view/header.php'; ?>
 <h2><?php echo $formType === 'add' ? 'Add Customer' : 'View/Update Customer'; ?></h2>
-
 <form action="index.php" method="post" id="add_update_customer">
     <input type="hidden" name="action"
            value="<?php echo $formType === 'add' ? 'add_customer' : 'update_customer'; ?>">
-
-    <!-- FIRST NAME -->
+    
+    <!-- First Name -->
     <div class="formLabelInput">
         <label for="firstName">First Name:</label>
         <input type="text" name="firstName" id="firstName" value="<?php echo htmlspecialchars
@@ -16,7 +15,7 @@
         <?php endif; ?>
     </div>
 
-    <!-- LAST NAME -->
+    <!-- Last Name -->
     <div class="formLabelInput">
         <label for="lastName">Last Name:</label>
         <input type="text" name="lastName" id="lastName" value="<?php echo htmlspecialchars
@@ -27,7 +26,7 @@
         <?php endif; ?>
     </div>
 
-    <!-- ADDRESS -->
+    <!-- Address -->
     <div class="formLabelInput">
         <label for="address">Address:</label>
         <input type="text" name="address" id="address" value="<?php echo htmlspecialchars
@@ -38,7 +37,7 @@
         <?php endif; ?>
     </div>
 
-    <!-- CITY -->
+    <!-- City -->
     <div class="formLabelInput">
         <label for="city">City:</label>
         <input type="text" name="city" id="city" value="<?php echo htmlspecialchars
@@ -49,7 +48,7 @@
         <?php endif; ?>
     </div>
 
-    <!-- STATE -->
+    <!-- State -->
     <div class="formLabelInput">
         <label for="state">State:</label>
         <input type="text" name="state" id="state" value="<?php echo htmlspecialchars
@@ -60,7 +59,7 @@
         <?php endif; ?>
     </div>
 
-    <!-- POSTAL CODE -->
+    <!-- Postal Code -->
     <div class="formLabelInput">
         <label for="postalCode">Postal Code:</label>
         <input type="text" name="postalCode" id="postalCode" value="<?php echo htmlspecialchars
@@ -71,7 +70,7 @@
         <?php endif; ?>
     </div>
 
-    <!-- COUNTRY -->
+    <!-- Country -->
     <div class="formLabelInput">
         <label for="country">Country:</label>
         <select name="country" id="country">
@@ -84,7 +83,7 @@
         </select>
     </div>
 
-    <!-- PHONE -->
+    <!-- Phone -->
     <div class="formLabelInput">
         <label for="phone">Phone:</label>
         <input type="text" name="phone" id="phone"
@@ -99,7 +98,7 @@
         <?php endif; ?>
     </div>
 
-    <!-- EMAIL -->
+    <!-- Email -->
     <div class="formLabelInput">
         <label for="email">Email:</label>
         <input type="text" name="email" id="email"
@@ -110,7 +109,7 @@
         <?php endif; ?>
     </div>
 
-    <!-- PASSWORD -->
+    <!-- Password -->
     <div class="formLabelInput">
         <label for="password">Password:</label>
         <input type="text" name="password" id="password"
@@ -121,14 +120,12 @@
         <?php endif; ?>
     </div>
 
-    <!-- BUTTON -->
+    <!-- Submit -->
     <?php if ($formType === 'update') : ?>
         <input type="hidden" name="customerID" value="<?php echo $customerID; ?>">
         <input type="hidden" name="originalCountryCode" value="<?php echo $originalCountryCode; ?>">
     <?php endif; ?>
     <input class="submitButtonIndent" type="submit" value="<?php echo $formType === 'add' ? 'Add '
         : 'Update '; ?>Customer">
-
 </form>
-
 <?php include '../view/footer.php'; ?>

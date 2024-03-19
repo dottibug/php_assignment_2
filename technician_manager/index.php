@@ -1,14 +1,26 @@
 <?php
+session_start();
+
+// Action variables
 require_once '../model/Form.php';
 require_once '../model/Validate.php';
-require_once '../model/TechnicianDB.php';
+require_once '../model/TechniciansDB.php';
 require_once '../model/Technician.php';
+
+// Instantiate classes
+$techniciansDB = new TechniciansDB();
 
 // Actions for technician manager
 const LIST_TECHNICIANS = 'list_technicians';
 const SHOW_ADD_FORM = 'show_add_form';
 const ADD_TECHNICIAN = 'add_technician';
 const DELETE_TECHNICIAN = 'delete_technician';
+
+// Only allow access to valid admin
+if (!$_SESSION['valid_admin']) {
+    header("Location: ../administrators");
+    exit();
+}
 
 // Get action type. Default action is list_technicians
 $action = filter_input(INPUT_POST, 'action');
@@ -33,8 +45,8 @@ $validate = new Validate($form);
 // Controller
 switch ($action) {
     case(LIST_TECHNICIANS):
-        $technicians = TechnicianDB::getTechnicians(); // get all technicians
-        include 'technician_list.php'; // display technician list
+        $technicians = $techniciansDB->getTechnicians();
+        include 'technician_list.php';
         break;
     case(SHOW_ADD_FORM):
         // Set initial values of fields to empty string
@@ -43,7 +55,7 @@ switch ($action) {
         $email = '';
         $phone = '';
         $password = '';
-        include 'add_technician.php'; // display add technician form
+        include 'add_technician.php';
         break;
     case(ADD_TECHNICIAN):
         // Get form data
@@ -70,7 +82,7 @@ switch ($action) {
         } // If no errors, add technician
         else {
             $technician = new Technician($firstName, $lastName, $email, $phone, $password);
-            TechnicianDB::addTechnician($technician);
+            $techniciansDB->addTechnician($technician);
 
             // Display technician list (rerun index.php to get updated technician list)
             header("Location: .?action=list_technicians");
@@ -78,7 +90,7 @@ switch ($action) {
         break;
     case (DELETE_TECHNICIAN):
         $techID = filter_input(INPUT_POST, 'techID');
-        TechnicianDB::deleteTechnician($techID);
+        $techniciansDB->deleteTechnician($techID);
 
         // Display technician list (rerun index.php to get updated technician list)
         header("Location: .?action=list_technicians");

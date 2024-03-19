@@ -9,6 +9,8 @@
         <th>Password</th>
         <th></th>
     </tr>
+
+    <!-- Technicians -->
     <?php foreach ($technicians as $technician) : ?>
         <tr>
             <td><?php echo $technician->getFirstName(); ?></td>
@@ -26,6 +28,7 @@
             </td>
         </tr>
     <?php endforeach; ?>
+    
 </table>
 <br>
 <a href="index.php?action=show_add_form">Add Technician</a>

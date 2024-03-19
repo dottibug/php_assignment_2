@@ -1,20 +1,35 @@
 <?php
+session_start();
+
+// Required files
 require_once '../model/Form.php';
 require_once '../model/Validate.php';
-require_once '../model/CustomerDB.php';
-require_once '../model/ProductDB.php';
+require_once '../model/CustomersDB.php';
+require_once '../model/ProductsDB.php';
 require_once '../model/RegistrationsDB.php';
 
-const SHOW_LOGIN = 'show_login';
-const LOGIN = 'login';
+// Instantiate classes
+$registrationsDB = new RegistrationsDB();
+$productsDB = new ProductsDB();
+$customersDB = new CustomersDB();
+
+// Action variables
+const SHOW_FORM = 'show_form';
 const REGISTER_PRODUCT = 'register_product';
+const LOGOUT = 'logout';
+
+// Only allow access to valid customers
+if (!$_SESSION['valid_customer']) {
+    header("Location: ../customers");
+    exit();
+}
 
 // Get action type. Default action is show_login
 $action = filter_input(INPUT_POST, 'action');
 if ($action === NULL) {
     $action = filter_input(INPUT_GET, 'action');
     if ($action === NULL) {
-        $action = SHOW_LOGIN;
+        $action = SHOW_FORM;
     }
 }
 
@@ -28,46 +43,29 @@ $validate = new Validate($form);
 
 // Controller
 switch ($action) {
-    case(SHOW_LOGIN):
-        $email = '';
-        include 'customer_login_form.php';
-        break;
-    case (LOGIN):
-        // Get form data
-        $email = filter_input(INPUT_POST, 'email');
-
-        // Validate form data
-        $validate->email('email', $email, true);
-
-        // Check if form has errors
-        if ($form->hasErrors()) {
-            include 'customer_login_form.php';
-        } // If no errors, attempt login
-        else {
-            // Get customer by email
-            $customer = CustomerDB::getCustomerByEmail($email);
-
-            if (!$customer) {
-                $form->getField('email')->setError('No customer results. Try again.');
-                include 'customer_login_form.php';
-            } else {
-                $products = ProductDB::getProducts();
-                include 'register_product_form.php';
-            }
-        }
+    case (SHOW_FORM):
+        // Get customer by email
+        $email = $_SESSION['customer_email'];
+        $customer = $customersDB->getCustomerByEmail($email);
+        $products = $productsDB->getProducts();
+        include 'register_product_form.php';
         break;
     case (REGISTER_PRODUCT):
         // Get form data
         $productCode = filter_input(INPUT_POST, 'productCode');
-        $customerID = filter_input(INPUT_POST, 'customerID');
+        $customerID = $_SESSION['customerID'];
 
         // Register product
-        $registration = RegistrationsDB::registerProduct($productCode, $customerID);
-
-//        var_dump($registration);
+        $registration = $registrationsDB->registerProduct($productCode, $customerID);
 
         // Display success message
         include 'registration_success.php';
+        break;
+    case (LOGOUT):
+        $_SESSION = array(); // Clear session data from memory
+        session_destroy(); // Clean up session ID
+        // Display customer login page
+        header("Location: ../customers");
         break;
 }
 ?>

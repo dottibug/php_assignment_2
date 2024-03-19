@@ -1,9 +1,16 @@
 <?php
+session_start();
+
+// Action variables
 require_once '../model/Form.php';
 require_once '../model/Validate.php';
-require_once '../model/CustomerDB.php';
+require_once '../model/CustomersDB.php';
 require_once '../model/CountriesDB.php';
 require_once '../model/Customer.php';
+
+// Instantiate classes
+$countriesDB = new CountriesDB();
+$customersDB = new CustomersDB();
 
 const SHOW_SEARCH = 'show_search';
 const SEARCH = 'search';
@@ -12,6 +19,12 @@ const SHOW_UPDATE_FORM = 'show_update_form';
 const ADD_CUSTOMER = 'add_customer';
 const UPDATE_CUSTOMER = 'update_customer';
 const SHOW_SUCCESS = 'show_success';
+
+// Only allow access to valid admin
+if (!$_SESSION['valid_admin']) {
+    header("Location: ../administrators");
+    exit();
+}
 
 // Get action type. Default action is show_search
 $action = filter_input(INPUT_POST, 'action');
@@ -58,23 +71,21 @@ switch ($action) {
             include 'customer_search.php';
         } // if no errors, get customer from database
         else {
-            $customers = CustomerDB::getCustomerByLastName($lastName);
+            $customers = $customersDB->getCustomerByLastName($lastName);
 
             if (!$customers) {
                 $showSearchResults = false;
                 $form->getField('lastName')->setError('No customer results. Try again.');
-//                include 'customer_search.php';
             } else {
                 $showSearchResults = true;
-//                include 'customer_search.php';
             }
             include 'customer_search.php';
         }
         break;
     case(SHOW_ADD_FORM):
         $formType = 'add';
-        $countries = CountriesDB::getCountries();
-        $selectedCountry = CountriesDB::getSelectedCountry($formType);
+        $countries = $countriesDB->getCountries();
+        $selectedCountry = $countriesDB->getSelectedCountry($formType);
         $firstName = '';
         $lastName = '';
         $address = '';
@@ -91,7 +102,7 @@ switch ($action) {
         $customerID = filter_input(INPUT_POST, 'customerID');
 
         // Get customer data
-        $customer = CustomerDB::getCustomerByID($customerID);
+        $customer = $customersDB->getCustomerByID($customerID);
         $firstName = $customer->getFirstName();
         $lastName = $customer->getLastName();
         $address = $customer->getAddress();
@@ -104,8 +115,8 @@ switch ($action) {
         $password = $customer->getPassword();
 
         // Get country data
-        $countries = CountriesDB::getCountries();
-        $selectedCountry = CountriesDB::getSelectedCountry('update', NULL, $countryCode);
+        $countries = $countriesDB->getCountries();
+        $selectedCountry = $countriesDB->getSelectedCountry('update', NULL, $countryCode);
 
         // Display update form
         $formType = 'update';
@@ -143,14 +154,14 @@ switch ($action) {
         // Check if form has errors
         if ($form->hasErrors()) {
             $formType = 'add';
-            $countries = CountriesDB::getCountries();
-            $selectedCountry = CountriesDB::getSelectedCountry($formType, $countryCode);
+            $countries = $countriesDB->getCountries();
+            $selectedCountry = $countriesDB->getSelectedCountry($formType, $countryCode);
             include 'customer_form.php';
         } // If no errors, add customer
         else {
             $customer = new Customer($firstName, $lastName, $email, $phone, $password, $address,
                 $city, $state, $postalCode, $countryCode);
-            CustomerDB::addCustomer($customer);
+            $customersDB->addCustomer($customer);
 
             header("Location: .?action=show_success");
         }
@@ -188,8 +199,8 @@ switch ($action) {
         // Check if form has errors
         if ($form->hasErrors()) {
             $formType = 'update';
-            $countries = CountriesDB::getCountries();
-            $selectedCountry = CountriesDB::getSelectedCountry($formType, $countryCode,
+            $countries = $countriesDB->getCountries();
+            $selectedCountry = $countriesDB->getSelectedCountry($formType, $countryCode,
                 $originalCountryCode);
             include 'customer_form.php';
         } // If no errors, update customer
@@ -197,7 +208,7 @@ switch ($action) {
             $customer = new Customer($firstName, $lastName, $email, $phone, $password, $address,
                 $city, $state, $postalCode, $countryCode);
             $customer->setID($customerID);
-            CustomerDB::updateCustomer($customer);
+            $customersDB->updateCustomer($customer);
 
             header("Location: .?action=show_success");
         }

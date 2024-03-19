@@ -1,14 +1,28 @@
 <?php
+session_start();
+
+// Action variables
 require_once '../model/Form.php';
 require_once '../model/Validate.php';
-require_once '../model/CustomerDB.php';
+require_once '../model/CustomersDB.php';
 require_once '../model/RegistrationsDB.php';
 require_once '../model/Incident.php';
 require_once '../model/IncidentsDB.php';
 
+// Instantiate classes
+$incidentsDB = new IncidentsDB();
+$customersDB = new CustomersDB();
+$registrationsDB = new RegistrationsDB();
+
 const SHOW_SEARCH = 'show_customer_search';
 const SEARCH = 'search';
 const CREATE_INCIDENT = 'create_incident';
+
+// Only allow access to valid admin
+if (!$_SESSION['valid_admin']) {
+    header("Location: ../administrators");
+    exit();
+}
 
 // Get action type. Default action is show_customer_search
 $action = filter_input(INPUT_POST, 'action');
@@ -49,7 +63,7 @@ switch ($action) {
             include 'customer_search.php';
         } else {
             // Get customer by email
-            $customer = CustomerDB::getCustomerByEmail($email);
+            $customer = $customersDB->getCustomerByEmail($email);
             $customerID = $customer->getID();
 
             if (!$customer) {
@@ -57,7 +71,7 @@ switch ($action) {
                 include 'customer_search.php';
             } else {
                 // Get customer's registered products
-                $registrations = RegistrationsDB::getRegistrationsByCustomerID($customerID);
+                $registrations = $registrationsDB->getRegistrationsByCustomerID($customerID);
                 $title = '';
                 $description = '';
                 include 'create_incident_form.php';
@@ -71,10 +85,8 @@ switch ($action) {
         $title = filter_input(INPUT_POST, 'title');
         $description = filter_input(INPUT_POST, 'description');
 
-        // Refetch customer data
-        /// NOTE::: the refetching below shouldn't be needed once using sessions
         // Get customer by email
-        $customer = CustomerDB::getCustomerByEmail($email);
+        $customer = $customersDB->getCustomerByEmail($email);
         $customerID = $customer->getID();
 
         // Validate form data
@@ -83,7 +95,7 @@ switch ($action) {
 
         // Check if form has errors
         if ($form->hasErrors()) {
-            $registrations = RegistrationsDB::getRegistrationsByCustomerID($customerID);
+            $registrations = $registrationsDB->getRegistrationsByCustomerID($customerID);
             include 'create_incident_form.php';
         } // If no errors, add incident
         else {
@@ -98,14 +110,12 @@ switch ($action) {
             // Create Incident object
             $incident = new Incident($customerID, $productCode, $techID, $dateOpened,
                 $dateClosed, $title, $description);
-
+            
             // Add incident to database
-            IncidentsDB::createIncident($incident);
+            $incidentsDB->createIncident($incident);
 
             // Show success message
             include 'create_incident_success.php';
         }
 }
-
-
 ?>

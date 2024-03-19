@@ -7,7 +7,7 @@
         <th>City</th>
         <th></th>
     </tr>
-
+    
     <!-- Search Results -->
     <?php foreach ($customers as $customer) : ?>
         <tr>

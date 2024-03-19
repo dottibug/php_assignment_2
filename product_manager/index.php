@@ -1,13 +1,25 @@
 <?php
+session_start();
+
+// Action variables
 require_once '../model/Form.php';
 require_once '../model/Validate.php';
-require_once '../model/ProductDB.php';
+require_once '../model/ProductsDB.php';
 require_once '../model/Product.php';
+
+// Instantiate classes
+$productsDB = new ProductsDB();
 
 const LIST_PRODUCTS = 'list_products';
 const SHOW_ADD_FORM = 'show_add_form';
 const ADD_PRODUCT = 'add_product';
 const DELETE_PRODUCT = 'delete_product';
+
+// Only allow access to valid admin
+if (!$_SESSION['valid_admin']) {
+    header("Location: ../administrators");
+    exit();
+}
 
 // Get action type. Default action is list_products
 $action = filter_input(INPUT_POST, 'action');
@@ -31,8 +43,8 @@ $validate = new Validate($form);
 // Controller
 switch ($action) {
     case(LIST_PRODUCTS):
-        $products = ProductDB::getProducts(); // get all product_manager
-        include 'product_list.php'; // display product list
+        $products = $productsDB->getProducts();
+        include 'product_list.php';
         break;
     case(SHOW_ADD_FORM):
         // Set initial values of fields to empty string
@@ -40,7 +52,7 @@ switch ($action) {
         $name = '';
         $version = '';
         $releaseDate = '';
-        include 'add_product.php'; // display add product form
+        include 'add_product.php';
         break;
     case(ADD_PRODUCT):
         // Get form data
@@ -65,7 +77,7 @@ switch ($action) {
         } // if no errors, add product
         else {
             $product = new Product($productCode, $name, $version, $releaseDate);
-            ProductDB::addProduct($product);
+            $productsDB->addProduct($product);
 
             // Display product list (rerun index.php to get updated product list)
             header("Location: .?action=list_products");
@@ -73,7 +85,7 @@ switch ($action) {
         break;
     case(DELETE_PRODUCT):
         $productCode = filter_input(INPUT_POST, 'productCode');
-        ProductDB::deleteProduct($productCode);
+        $productsDB->deleteProduct($productCode);
 
         // Display product list (rerun index.php to get updated product list)
         header("Location: .?action=list_products");

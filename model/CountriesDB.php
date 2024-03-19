@@ -10,77 +10,95 @@ class CountriesDB
     // ------------------------------------------------------------------------------
     // Get all countries
     // ------------------------------------------------------------------------------
-    public static function getCountries()
+    public function getCountries()
     {
-        $db = Database::getDB();
+        try {
+            $db = Database::getDB();
+            $query = "SELECT * FROM countries";
+            $statement = $db->query($query);
+            $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+            $statement->closeCursor();
 
-        $query = "SELECT * FROM countries";
-        $statement = $db->query($query);
-        $result = $statement->fetchAll();
-        $statement->closeCursor();
-
-        // Create array of Country objects
-        $countries = array();
-        foreach ($result as $row) {
-            $country = new Country(
-                $row['countryCode'],
-                $row['countryName']
-            );
-            $countries[] = $country;
+            // Create array of Country objects
+            $countries = array();
+            foreach ($result as $row) {
+                $country = new Country(
+                    $row['countryCode'],
+                    $row['countryName']
+                );
+                $countries[] = $country;
+            }
+            return $countries;
+        } catch (PDOException $e) {
+            $error_message = $e->getMessage();
+            Database::displayDBError($error_message);
+            return false;
         }
-        return $countries;
     }
 
     // ------------------------------------------------------------------------------
     // Get country name by country code
     // ------------------------------------------------------------------------------
-    public static function getCountryNameByCode($code)
+    public function getCountryNameByCode($code)
     {
-        $db = Database::getDB();
-        $query = "SELECT * FROM countries WHERE countryCode = :code";
-        $statement = $db->prepare($query);
-        $statement->bindValue(':code', $code);
-        $statement->execute();
-        $country = $statement->fetch();
-        $statement->closeCursor();
-        return $country['countryName'];
+        try {
+            $db = Database::getDB();
+            $query = "SELECT * FROM countries WHERE countryCode = :code";
+            $statement = $db->prepare($query);
+            $statement->bindValue(':code', $code);
+            $statement->execute();
+            $country = $statement->fetch(PDO::FETCH_ASSOC);
+            $statement->closeCursor();
+            return $country['countryName'];
+        } catch (PDOException $e) {
+            $error_message = $e->getMessage();
+            Database::displayDBError($error_message);
+            return false;
+        }
     }
 
     // ------------------------------------------------------------------------------
     // Get country that should be the selected option on the customer form (result depends on the
     // type of customer form ("add" or "update")
     // ------------------------------------------------------------------------------
-    public static function getSelectedCountry($formType, $formCountryCode = NULL,
-                                              $originalCountryCode = NULL)
+    public function getSelectedCountry($formType, $formCountryCode = NULL,
+                                       $originalCountryCode = NULL)
     {
-        // Get selected country when adding customers
+        // Get selected country when ADDING customers
         if ($formType === 'add') {
             $defaultCountryName = 'Canada';
             $defaultCountryCode = 'CA';
 
             // Update selected country if it differs from the default
             if ($formCountryCode !== NULL && $formCountryCode !== $defaultCountryCode) {
-                // Get country name from the country code
-                $db = Database::getDB();
-                $query = "SELECT * FROM countries WHERE countryCode = :formCountryCode";
-                $statement = $db->prepare($query);
-                $statement->bindValue(':formCountryCode', $formCountryCode);
-                $statement->execute();
-                $country = $statement->fetch();
-                $statement->closeCursor();
-                $selectedCountry = $country['countryName'];
+                try {
+                    // Get country name from the country code
+                    $db = Database::getDB();
+                    $query = "SELECT * FROM countries WHERE countryCode = :formCountryCode";
+                    $statement = $db->prepare($query);
+                    $statement->bindValue(':formCountryCode', $formCountryCode);
+                    $statement->execute();
+                    $country = $statement->fetch(PDO::FETCH_ASSOC);
+                    $statement->closeCursor();
+                    $selectedCountry = $country['countryName'];
+                } catch (PDOException $e) {
+                    $error_message = $e->getMessage();
+                    Database::displayDBError($error_message);
+                    return false;
+                }
+                // Selected country is the default country if there are no changes
             } else {
                 $selectedCountry = $defaultCountryName;
             }
-        } // Get selected country for updating customers
+        } // Get selected country for UPDATING customers
         else {
             $defaultCountryCode = $originalCountryCode;
-            $defaultCountryName = self::getCountryNameByCode($defaultCountryCode);
+            $defaultCountryName = $this->getCountryNameByCode($defaultCountryCode);
 
             // Update selected country if it changes from default
             if ($formCountryCode !== NULL && $formCountryCode !== $defaultCountryCode) {
                 // Get new country name from the country code
-                $selectedCountry = self::getCountryNameByCode($formCountryCode);
+                $selectedCountry = $this->getCountryNameByCode($formCountryCode);
             } else {
                 $selectedCountry = $defaultCountryName;
             }

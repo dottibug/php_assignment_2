@@ -3,7 +3,7 @@
 <form action="index.php" method="post" id="add_product_form">
     <input type="hidden" name="action" value="add_product">
 
-    <!-- PRODUCT CODE -->
+    <!-- Product Code -->
     <div class="formLabelInput">
         <label for="productCode">Code:</label>
         <input type="text" name="productCode" id="productCode"
@@ -14,7 +14,7 @@
         <?php endif; ?>
     </div>
 
-    <!-- PRODUCT NAME -->
+    <!-- Product Name -->
     <div class="formLabelInput">
         <label for="name">Name:</label>
         <input type="text" name="name" id="name"
@@ -25,7 +25,7 @@
         <?php endif; ?>
     </div>
 
-    <!-- PRODUCT VERSION -->
+    <!-- Product Version -->
     <div class="formLabelInput">
         <label for="version">Version:</label>
         <input type="text" name="version" id="version"
@@ -36,7 +36,7 @@
         <?php endif; ?>
     </div>
 
-    <!-- PRODUCT RELEASE -->
+    <!-- Product Release -->
     <div class="formLabelInput">
         <label for="releaseDate">Release Date:</label>
         <input type="text" name="releaseDate" id="releaseDate"
@@ -52,7 +52,7 @@
         <?php endif; ?>
     </div>
 
-    <!-- SUBMIT BUTTON -->
+    <!-- Submit -->
     <input class="submitButtonIndent" type="submit" value="Add Product">
 </form>
 <br>

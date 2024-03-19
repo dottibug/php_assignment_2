@@ -17,15 +17,7 @@ class Validate
 //        $this->form = new Form();
         $this->form = $form;
     }
-
-    // ------------------------------------------------------------------------------
-    // Get form fields array
-    // ------------------------------------------------------------------------------
-//    public function getFormFields()
-//    {
-//        return $this->form;
-//    }
-
+    
     // ------------------------------------------------------------------------------
     // Validate text field's length and required status.
     // Min and max are 1 and 50 by default, respectively.
@@ -37,13 +29,13 @@ class Validate
         $field = $this->form->getField($name);
 
         // Check if field is required (clear error and exit validation if not required)
-        if (!$required && empty($value)) {
+        if (!$required && (empty($value) || strlen(trim($value)) === 0)) {
             $field->clearError();
             return;
         }
 
         // Check if field is empty
-        if (empty($value)) {
+        if (empty($value) || strlen(trim($value)) === 0) {
             $field->setError('Required');
         } // Check field length
         elseif (strlen($value) < $min || strlen($value) > $max) {

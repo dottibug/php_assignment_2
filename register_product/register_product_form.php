@@ -4,11 +4,13 @@
 <form action="index.php" method="post" id="register_product_form">
     <input type="hidden" name="action" value="register_product">
 
+    <!-- Customer -->
     <div class="formLabelInput">
         <label for="customer">Customer:</label>
         <p><?php echo htmlspecialchars($customer->getFullName()); ?></p>
     </div>
 
+    <!-- Product Code -->
     <div class="formLabelInput">
         <label for="productCode">Product:</label>
         <select name="productCode" id="productCode">
@@ -20,8 +22,10 @@
         </select>
     </div>
 
-    <input type="hidden" name="customerID" value="<?php echo $customer->getID(); ?>">
+    <!-- Submit -->
     <input class="submitButtonIndent" type="submit" value="Register Product">
 </form>
+
+<?php include 'login_info.php'; ?>
 
 <?php include '../view/footer.php'; ?>

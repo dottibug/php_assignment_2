@@ -3,7 +3,7 @@
     <form action="index.php" method="post" id="add_technician_form">
         <input type="hidden" name="action" value="add_technician">
 
-        <!-- FIRST NAME -->
+        <!-- First Name -->
         <div class="formLabelInput">
             <label for="firstName">First Name:</label>
             <input type="text" name="firstName" id="firstName"
@@ -14,7 +14,7 @@
             <?php endif; ?>
         </div>
 
-        <!-- LAST NAME -->
+        <!-- Last Name -->
         <div class="formLabelInput">
             <label for="lastName">Last Name:</label>
             <input type="text" name="lastName" id="lastName"
@@ -25,7 +25,7 @@
             <?php endif; ?>
         </div>
 
-        <!-- EMAIL -->
+        <!-- Email -->
         <div class="formLabelInput">
             <label for="email">Email:</label>
             <input type="text" name="email" id="email"
@@ -36,7 +36,7 @@
             <?php endif; ?>
         </div>
 
-        <!-- PHONE -->
+        <!-- Phone -->
         <div class="formLabelInput">
             <label for="phone">Phone:</label>
             <input type="text" name="phone" id="phone"
@@ -51,7 +51,7 @@
             <?php endif; ?>
         </div>
 
-        <!-- PASSWORD -->
+        <!-- Password -->
         <div class="formLabelInput">
             <label for="password">Password:</label>
             <input type="text" name="password" id="password"
@@ -62,11 +62,11 @@
             <?php endif; ?>
         </div>
 
-        <!-- SUBMIT BUTTON -->
+        <!-- Submit -->
         <input class="submitButtonIndent" type="submit" value="Add Technician">
     </form>
     <br>
 
-    <!-- TECH PAGE LINK -->
+    <!-- Tech page link -->
     <a href="index.php?action=list_technicians">View Technician List</a>
 <?php include_once '../view/footer.php'; ?>

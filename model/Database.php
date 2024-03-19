@@ -1,5 +1,8 @@
 <?php
 
+// ------------------------------------------------------------------------------
+// Database class
+// ------------------------------------------------------------------------------
 class Database
 {
     private static $dsn = 'mysql:host=localhost;dbname=tech_support';
@@ -8,10 +11,9 @@ class Database
 
     private static $db;
 
-    private function __construct()
-    {
-    }
-
+    // ------------------------------------------------------------------------------
+    // Get database connection
+    // ------------------------------------------------------------------------------
     public static function getDB()
     {
         if (!isset(self::$db)) {
@@ -24,6 +26,16 @@ class Database
             }
         }
         return self::$db;
+    }
+
+    // ------------------------------------------------------------------------------
+    // Display error page
+    // ------------------------------------------------------------------------------
+    public static function displayDBError($msg)
+    {
+        $error_message = $msg;
+        include 'database_error.php';
+        exit();
     }
 }
 

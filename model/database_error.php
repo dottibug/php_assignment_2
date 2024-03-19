@@ -1,8 +1,8 @@
-<?php include 'view/header.php'; ?>
-<section>
+<?php include '../view/header.php'; ?>
+<div class="dbError">
     <h2>Database Error</h2>
-    <p>There was an error connecting to the database.</p>
-    <p>Error Message: <?php echo $error_message; ?></p>
-</section>
-<?php include 'view/footer.php'; ?>
+    <p>An error occurred while attempting to work with the database.</p>
+    <p><span class="bold">Message: </span><?php echo $error_message; ?></p>
+</div>
+<?php include '../view/footer.php'; ?>
 

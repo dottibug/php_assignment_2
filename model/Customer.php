@@ -1,11 +1,16 @@
 <?php
-
+// ------------------------------------------------------------------------------
+// Represents a customer (base class is Person)
+// ------------------------------------------------------------------------------
 require_once 'Person.php';
 
 class Customer extends Person
 {
     private $address, $city, $state, $postalCode, $countryCode;
 
+    // ------------------------------------------------------------------------------
+    // Connector
+    // ------------------------------------------------------------------------------
     public function __construct($firstName, $lastName, $email, $phone, $password, $address,
                                 $city, $state, $postalCode, $countryCode)
     {
@@ -17,7 +22,9 @@ class Customer extends Person
         parent::__construct($firstName, $lastName, $email, $phone, $password);
     }
 
-    // GETTERS
+    // ------------------------------------------------------------------------------
+    // Getters
+    // ------------------------------------------------------------------------------
     public function getAddress()
     {
         return $this->address;
@@ -44,7 +51,9 @@ class Customer extends Person
     }
 
 
-    // SETTERS
+    // ------------------------------------------------------------------------------
+    // Setters
+    // ------------------------------------------------------------------------------
     public function setAddress($address)
     {
         $this->address = $address;

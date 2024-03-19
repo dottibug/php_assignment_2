@@ -8,6 +8,8 @@
         <th>Release Date</th>
         <th></th>
     </tr>
+
+    <!-- Products -->
     <?php foreach ($products as $product) : ?>
         <tr>
             <td><?php echo $product->getProductCode(); ?></td>
@@ -24,6 +26,7 @@
             </td>
         </tr>
     <?php endforeach; ?>
+    
 </table>
 <br>
 <a href="index.php?action=show_add_form">Add Product</a>

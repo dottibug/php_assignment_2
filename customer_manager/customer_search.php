@@ -1,13 +1,13 @@
 <?php include '../view/header.php'; ?>
 <h2>Customer Search</h2>
-
 <form action="index.php" method="post" id="customer_search_form">
     <input type="hidden" name="action" value="search">
+
+    <!-- Last Name -->
     <div class="formLabelInput">
         <label for="lastName">Last Name:</label>
         <input type="text" name="lastName" id="lastName"
                value="<?php echo $lastName; ?>">
-
         <!-- Conditionally render error -->
         <?php if ($form->getField('lastName')->hasError()) : ?>
             <?php echo $form->getField('lastName')->getErrorHTML(); ?>
@@ -21,6 +21,7 @@
     <?php include 'search_results.php'; ?>
 <?php endif; ?>
 
+<!-- Add Customer Link -->
 <br>
 <h2>Add a New Customer</h2>
 <form action="index.php" method="post">
